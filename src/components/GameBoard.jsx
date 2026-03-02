@@ -9,11 +9,12 @@ export function GameBoard({onSelectSquare, turns}) {
         {[0, 1, 2].map(row =>
             <li key={row}>
                 <ol>
-                    {[0, 1, 2].map((column) =>
-                        <li key={column}>
-                            <button onClick={() => onSelectSquare(row, column)} key={column}>{rowColumnTurns[`${row}${column}`]}</button>
+                    {[0, 1, 2].map((column) => {
+                        const value = rowColumnTurns[`${row}${column}`] || undefined
+                        return <li key={column}>
+                            <button disabled={value} onClick={() => onSelectSquare(row, column)} key={column}>{value}</button>
                         </li>
-                    )}
+                    })}
                 </ol>
             </li>
         )}
