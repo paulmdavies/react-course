@@ -4,18 +4,24 @@ import {useState} from "react";
 import {Log} from "./components/Log.jsx";
 
 
+function getActivePlayerSymbol(turns) {
+  let activePlayerSymbol = 'X'
+
+  if (turns.length !== 0 && turns[0].playerSymbol === 'X') {
+    activePlayerSymbol = 'O'
+  }
+  return activePlayerSymbol;
+}
+
+
 function App() {
-  const [activePlayer, setActivePlayer] = useState('X')
   const [turns, setTurns] = useState([])
 
-  function onSelectSquare(row, column) {
-    setActivePlayer((currentActivePlayer) => currentActivePlayer === 'X' ? 'O' : 'X')
-    setTurns((currentTurns) => {
-      let activePlayerSymbol = 'X'
+  let activePlayerSymbol = getActivePlayerSymbol(turns);
 
-      if (turns.length !== 0 && turns[0].playerSymbol === 'X') {
-        activePlayerSymbol = 'O'
-      }
+  function onSelectSquare(row, column) {
+    setTurns((currentTurns) => {
+      let activePlayerSymbol = getActivePlayerSymbol(currentTurns)
 
       const turn = {
         'playerSymbol': activePlayerSymbol,
@@ -29,8 +35,8 @@ function App() {
   return <main>
     <div id='game-container'>
       <ol id='players' className='highlight-player'>
-        <Player active={activePlayer === 'X'} name='Player 1' symbol='X'/>
-        <Player active={activePlayer === 'O'} name='Player 2' symbol='O'/>
+        <Player active={activePlayerSymbol === 'X'} name='Player 1' symbol='X'/>
+        <Player active={activePlayerSymbol === 'O'} name='Player 2' symbol='O'/>
       </ol>
       <GameBoard
           onSelectSquare={onSelectSquare}
