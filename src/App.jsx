@@ -1,22 +1,43 @@
 import {Player} from "./components/Player.jsx";
 import {GameBoard} from "./components/GameBoard.jsx";
 import {useState} from "react";
+import {Log} from "./components/Log.jsx";
+
 
 function App() {
-  const [activePlayerIndex, setActivePlayerIndex] = useState('1')
+  const [activePlayer, setActivePlayer] = useState('X')
+  const [turns, setTurns] = useState([])
 
-  function toggleActivePlayer() {
-    setActivePlayerIndex((currentActivePlayerIndex) => currentActivePlayerIndex === '1' ? '2' : '1')
+  function onSelectSquare(row, column) {
+    setActivePlayer((currentActivePlayer) => currentActivePlayer === 'X' ? 'O' : 'X')
+    setTurns((currentTurns) => {
+      let activePlayerSymbol = 'X'
+
+      if (turns.length !== 0 && turns[0].playerSymbol === 'X') {
+        activePlayerSymbol = 'O'
+      }
+
+      const turn = {
+        'playerSymbol': activePlayerSymbol,
+        'row': row,
+        'column': column
+      }
+      return [turn, ...turns]
+    })
   }
 
   return <main>
     <div id='game-container'>
       <ol id='players' className='highlight-player'>
-        <Player active={activePlayerIndex === '1'} name='Player 1' symbol='X'/>
-        <Player active={activePlayerIndex === '2'} index='2' name='Player 2' symbol='O'/>
+        <Player active={activePlayer === 'X'} name='Player 1' symbol='X'/>
+        <Player active={activePlayer === 'O'} name='Player 2' symbol='O'/>
       </ol>
-      <GameBoard activePlayerSymbol={activePlayerIndex === '1' ? 'X' : 'O'} toggleActivePlayer={toggleActivePlayer}/>
+      <GameBoard
+          onSelectSquare={onSelectSquare}
+          turns={turns}
+      />
     </div>
+    <Log turns={turns}/>
   </main>
 }
 
