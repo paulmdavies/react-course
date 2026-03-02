@@ -6,15 +6,16 @@ const initialGameBoard = [
     [null, null, null],
 ]
 
-export function GameBoard() {
+export function GameBoard({activePlayerSymbol, toggleActivePlayer}) {
     const [gameBoard, updateGameBoard] = useState(initialGameBoard)
 
     function click(rowIndex, columnIndex) {
         updateGameBoard((previousGameBoard) => {
             let newGameBoard = [...previousGameBoard.map(row => [...row])]
-            newGameBoard[rowIndex][columnIndex] = 'X'
+            newGameBoard[rowIndex][columnIndex] = activePlayerSymbol
             return newGameBoard
         })
+        toggleActivePlayer()
     }
 
     return <ol id='game-board'>
