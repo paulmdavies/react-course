@@ -27,13 +27,7 @@ function getActivePlayerSymbol(turns) {
 }
 
 
-function App() {
-  const [turns, setTurns] = useState([])
-  const [players, setPlayers] = useState({
-      'X': 'Player 1',
-      'O': 'Player 2'
-  })
-
+function deriveWinner(turns) {
     let winner = undefined
     for (const playerSymbol of ['X', 'O']) {
         const playerTurnCoordinates = new Set(turns.filter(turn => turn.playerSymbol === playerSymbol).map(turn => `${turn.row}${turn.column}`))
@@ -49,8 +43,19 @@ function App() {
             winner = null
         }
     }
+    return winner;
+}
 
-  let activePlayerSymbol = getActivePlayerSymbol(turns);
+function App() {
+  const [turns, setTurns] = useState([])
+  const [players, setPlayers] = useState({
+      'X': 'Player 1',
+      'O': 'Player 2'
+  })
+
+    const winner = deriveWinner(turns);
+
+    let activePlayerSymbol = getActivePlayerSymbol(turns);
 
   function onSelectSquare(row, column) {
     setTurns((currentTurns) => {
