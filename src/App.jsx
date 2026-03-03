@@ -29,6 +29,10 @@ function getActivePlayerSymbol(turns) {
 
 function App() {
   const [turns, setTurns] = useState([])
+  const [players, setPlayers] = useState({
+      'X': 'Player 1',
+      'O': 'Player 2'
+  })
 
     let winner = undefined
     for (const playerSymbol of ['X', 'O']) {
@@ -68,16 +72,16 @@ function App() {
   return <main>
     <div id='game-container'>
       <ol id='players' className='highlight-player'>
-        <Player active={activePlayerSymbol === 'X'} name='Player 1' symbol='X'/>
-        <Player active={activePlayerSymbol === 'O'} name='Player 2' symbol='O'/>
+        <Player active={activePlayerSymbol === 'X'} name={players['X']} symbol='X' setPlayers={setPlayers}/>
+        <Player active={activePlayerSymbol === 'O'} name={players['O']} symbol='O' setPlayers={setPlayers}/>
       </ol>
-        {winner !== undefined && <GameOver winner={winner} rematch={rematch} />}
+        {winner !== undefined && <GameOver winner={players[winner]} rematch={rematch} />}
       <GameBoard
           onSelectSquare={onSelectSquare}
           turns={turns}
       />
     </div>
-    <Log turns={turns}/>
+    <Log turns={turns} players={players}/>
   </main>
 }
 
