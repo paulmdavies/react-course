@@ -61,13 +61,17 @@ function App() {
     })
   }
 
+  function rematch() {
+      setTurns([])
+  }
+
   return <main>
     <div id='game-container'>
       <ol id='players' className='highlight-player'>
         <Player active={activePlayerSymbol === 'X'} name='Player 1' symbol='X'/>
         <Player active={activePlayerSymbol === 'O'} name='Player 2' symbol='O'/>
       </ol>
-        {winner !== undefined && <GameOver winner={winner} />}
+        {winner !== undefined && <GameOver winner={winner} rematch={rematch} />}
       <GameBoard
           onSelectSquare={onSelectSquare}
           turns={turns}
